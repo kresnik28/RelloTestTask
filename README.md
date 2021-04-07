@@ -17,5 +17,3 @@ Then enter in the ``php container`` and run commands:
 ``npm run dev``
 
 ``php artisan migrate --seed``
-
-``chmod -R 777 storage``
