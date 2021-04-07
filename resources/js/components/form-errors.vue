@@ -1,7 +1,7 @@
 <template>
     <section>
         <div v-if="errorsList">
-            <p class="alert alert-danger" v-for="(error, index) in errorsList" :key="index">{{error}}</p>
+            <p class="alert alert-danger" v-for="(error, index) in errorsList" :key="index">{{ error }}</p>
         </div>
     </section>
 </template>
@@ -10,13 +10,16 @@
 export default {
     name: "form-errors",
     props: {
-        errors:{
+        errors: {
             type: Object,
-            default: () => {{}}
+            default: () => {
+                {
+                }
+            }
         }
     },
-    computed:{
-        errorsList(){
+    computed: {
+        errorsList() {
             return this.errors ? Object.values(this.errors).map((item) => {
                 return item[0]
             }) : []

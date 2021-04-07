@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Helpers\TreeHelperController;
+use App\Http\Helpers\TreeHelper;
 use App\Http\Requests\CommentRequest;
+use App\Http\Service\CommentsService;
 use App\Http\Service\UsersService;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
+/**
+ * Class CommentsController
+ * @package App\Http\Controllers\Api
+ */
 class CommentsController
 {
     /**
@@ -17,7 +22,7 @@ class CommentsController
     {
         $comments = Comment::with('users')->get();
 
-        $helperTree = new TreeHelperController();
+        $helperTree = new TreeHelper();
 
         return $helperTree->buildTree($comments);
 
@@ -34,30 +39,25 @@ class CommentsController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created comment in storage.
      *
      * @param CommentRequest $request
-     *
+     * @return Comment
      */
     public function store(CommentRequest $request): Comment
     {
-
         $userService = new UsersService();
         $user = $userService->getUser($request->user);
 
-        $comment = new Comment;
-        $comment->user_id = $user->id;
-        $comment->comment_text = $request->comment['commentText'];
-        $comment->parent_id = $request->parentId ?? null;
-        $comment->save();
+        $commentsService = new CommentsService();
 
-        return $comment;
+        return $commentsService->createComment($user, $request);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -68,7 +68,7 @@ class CommentsController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -79,8 +79,8 @@ class CommentsController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -91,7 +91,7 @@ class CommentsController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      */
     public function destroy($id)
     {

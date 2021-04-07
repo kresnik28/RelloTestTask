@@ -13,9 +13,9 @@ class UsersService
      */
     public function getUser(array $user_data): User
     {
-        $user = User::where('email' , $user_data['email'])->first();
+        $user = User::where('email', $user_data['email'])->first();
 
-        if(!$user){
+        if (!$user) {
             $user = new User;
             $user->name = $user_data['name'];
             $user->email = $user_data['email'];

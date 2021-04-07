@@ -16,6 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(
     static function () {
-        Route::resource( 'comments',CommentsController::class);
+        Route::resource('comments', CommentsController::class);
     });
-

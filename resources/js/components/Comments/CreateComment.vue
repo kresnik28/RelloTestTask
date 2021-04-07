@@ -27,15 +27,15 @@ export default {
     name: "CreateComment",
     components: {FormErrors},
     props: {
-        parentId:{
+        parentId: {
             type: Number,
             default: 0
         }
     },
-    data: () =>{
+    data: () => {
         return {
-            errors:null,
-            user:{
+            errors: null,
+            user: {
                 name: '',
                 email: ''
             },
@@ -44,9 +44,9 @@ export default {
             }
         }
     },
-    methods:{
-        createComment(){
-            const commentBody = {user: this.user, comment: this.comment, ...{parentId: this.parentId} };
+    methods: {
+        createComment() {
+            const commentBody = {user: this.user, comment: this.comment, ...{parentId: this.parentId}};
             axios.post('api/comments', commentBody)
                 .then(resp => {
                     this.$eventBus.$emit('refreshList');
@@ -56,13 +56,13 @@ export default {
                     this.errors = error.response.data.errors
                     setTimeout(() => {
                         this.errors = null
-                    },ERRORS_TIMEOUT)
+                    }, ERRORS_TIMEOUT)
                 })
         },
-        resetForm(){
+        resetForm() {
             this.user.name = ''
             this.user.email = ''
-            this.comment.commentText =''
+            this.comment.commentText = ''
         }
     }
 }
